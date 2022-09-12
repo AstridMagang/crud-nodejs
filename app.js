@@ -28,6 +28,7 @@ Shows Mysql Connect
 --------------------------------------------
 --------------------------------------------*/
 conn.connect((err) =>{
+  // Error handler
   if(err) throw 'Ups Connect db failed' + err.message;
   console.log('Mysql Connected with App...');
 });
@@ -56,7 +57,13 @@ app.get('/api/items/:id',(req, res) => {
     
   let query = conn.query(sqlQuery, (err, results) => {
     if(err) throw err;
-    res.send(apiResponse(results));
+    
+    if(results.length == 0){
+      res.send(apiResponse('Ups data not found'))
+    }else{
+      res.send(apiResponse(results));
+    }
+    
   });
 });
    
